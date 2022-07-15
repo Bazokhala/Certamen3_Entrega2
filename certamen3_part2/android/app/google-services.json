@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "181794974481",
+    "project_id": "noticiascert3",
+    "storage_bucket": "noticiascert3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181794974481:android:eaeaf3d46e8fc40e9cfab0",
+        "android_client_info": {
+          "package_name": "com.example.certamen3_part2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "181794974481-fvnuvaaint0u89t3hak18ufl7riplrfs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXj392yp5Mx9ORfWy56143daA3IrrUV6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "181794974481-fvnuvaaint0u89t3hak18ufl7riplrfs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
