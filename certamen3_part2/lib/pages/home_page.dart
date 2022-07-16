@@ -1,6 +1,11 @@
 import 'package:certamen3_part2/pages/login_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../widgets/panel_user_email.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,10 +40,40 @@ class _HomePageState extends State<HomePage> {
                   value: 'logout',
                   child: Text('Cerrar Sesion'))
               ],
+              onSelected: (opcion) async {
+                if (opcion == 'logout') {
+                  await FirebaseAuth.instance.signOut();
+
+                  SharedPreferences sp = await SharedPreferences.getInstance();
+                  sp.remove('userEmail');
+
+                  MaterialPageRoute route = MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  );
+                  Navigator.pushReplacement(context, route);
+                }
+              },
             )
           ]
       ),
-      body: Text('Noticiones')
+      body: Column(
+        children: [
+          PanelUserEmail(),
+          Expanded(
+            child: StreamBuilder(
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+                if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Text('hola');
+              },
+            ),
+          ),
+          
+        ],
+      ),
     );
   }
 }
