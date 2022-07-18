@@ -67,7 +67,21 @@ class _HomePageState extends State<HomePage> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                return Text('hola');
+                return ListView.separated(
+                  separatorBuilder: (context, index) => Divider(),
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder : (context, index){
+                    var noticias = snapshot.data!.docs[index];
+
+                    return ListTile(
+                      leading: Icon(MdiIcons.newspaper),
+                      title: Text('${noticias['titulo']}'),
+                      subtitle: Text('${noticias['fecha_hora']}'),
+                      trailing: Text('${noticias['texto']}'),
+                    );
+                  }
+
+                );
               },
             ),
           ),
