@@ -1,4 +1,5 @@
 import 'package:certamen3_part2/pages/login_page.dart';
+import 'package:certamen3_part2/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -58,9 +59,9 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          PanelUserEmail(),
           Expanded(
             child: StreamBuilder(
+              stream: FirestoreService().noticias(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
                 if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
                   return Center(

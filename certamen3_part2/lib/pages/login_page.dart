@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/panel_user_email.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
 
@@ -10,6 +12,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        PanelUserEmail(),
+      ],
+
+    );
   }
 }
