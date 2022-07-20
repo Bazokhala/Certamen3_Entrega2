@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Noticias'),
-        backgroundColor: Color.fromARGB(206, 247, 24, 8),
+        backgroundColor: Color.fromARGB(206, 247, 8, 227),
         leading: Icon(
           MdiIcons.newspaper,),
           actions: <Widget>[

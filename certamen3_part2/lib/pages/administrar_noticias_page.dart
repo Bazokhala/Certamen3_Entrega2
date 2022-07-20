@@ -1,3 +1,4 @@
+import 'package:certamen3_part2/pages/agregar_noticias_page.dart';
 import 'package:certamen3_part2/pages/home_page.dart';
 import 'package:certamen3_part2/pages/modificar_noticias_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,7 +23,7 @@ class _AdministrarNoticiasPageState extends State<AdministrarNoticiasPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Administrador de Noticias'),
-        backgroundColor: Color.fromARGB(206, 247, 24, 8),
+        backgroundColor: Color.fromARGB(206, 247, 8, 227),
         leading: Icon(
           MdiIcons.newspaper,),
         actions: [
@@ -83,12 +84,13 @@ class _AdministrarNoticiasPageState extends State<AdministrarNoticiasPage> {
                         title: Text('${noticias['titulo']}'),
                         subtitle: Text('${noticias['texto']}'),
                         trailing: Text(fecha),
-                        onLongPress: (){
+                        onTap: (){
                           MaterialPageRoute route = MaterialPageRoute(
-                            builder: (context) => ModificarNoticiasPage(),
+                            builder: (context) => ModificarNoticiasPage('${noticias['titulo']}'),
                           );
                           Navigator.push(context, route);
                         },
+                        onLongPress: (){},
                       ),
                     );
                   }
@@ -97,10 +99,20 @@ class _AdministrarNoticiasPageState extends State<AdministrarNoticiasPage> {
               },
             ),
           ),
-          
+          Container(
+            child: 
+            ElevatedButton(
+              child: Text('Agregar Noticia'),
+              onPressed: (){
+                MaterialPageRoute route = MaterialPageRoute(
+                  builder: ((context) => AgregarNoticiasPage()));
+                  Navigator.pushReplacement(context, route);
+              },),
+          )
         ],
       ),
     );
   }
+  
 }
  

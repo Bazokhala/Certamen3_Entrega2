@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Inicio de Sesion'),
-        backgroundColor: Color.fromARGB(206, 247, 24, 8),
+        backgroundColor: Color.fromARGB(206, 247, 8, 227),
         // leading: Icon(
         //   MdiIcons.account,),
         //   actions: <Widget>[

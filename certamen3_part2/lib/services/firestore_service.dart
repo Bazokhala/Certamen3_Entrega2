@@ -7,4 +7,32 @@ class FirestoreService{
       .orderBy('fecha_hora', descending: true)
       .snapshots();
   }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getNoticias(String noticias) async {
+    return await FirebaseFirestore.instance.collection('noticias').doc(noticias).get();
+  }
+  Future noticiasAgregar(String titulo, String texto, Timestamp fecha_hora) {
+    return FirebaseFirestore.instance.collection('noticias').doc().set({
+      'titulo': titulo,
+      'texto': texto,
+      'fecha_hora': fecha_hora,
+    });
+  }
+  Future noticiasBorrar(String noticiasId) {
+    return FirebaseFirestore.instance.collection('noticias').doc(noticiasId).delete();
+  }
+  Future noticiasEditar(String noticiasId, String titulo, String texto, Timestamp fecha_hora) {
+    return FirebaseFirestore.instance.collection('noticias').doc(noticiasId).update({
+      'titulo': titulo,
+      'texto': texto,
+      'fecha_hora': fecha_hora,
+    });
+  }
+
 }
+
+
+
+
+
+

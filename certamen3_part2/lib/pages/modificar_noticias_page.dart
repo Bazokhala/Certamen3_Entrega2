@@ -10,7 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/firestore_service.dart';
 
 class ModificarNoticiasPage extends StatefulWidget {
-  ModificarNoticiasPage({Key? key}) : super(key: key);
+  String noticiasId;
+  ModificarNoticiasPage(this.noticiasId,{Key? key}) : super(key: key);
 
   @override
   State<ModificarNoticiasPage> createState() => _ModificarNoticiasPageState();
@@ -21,7 +22,7 @@ class _ModificarNoticiasPageState extends State<ModificarNoticiasPage> {
   TextEditingController tituloCtrl = TextEditingController();
   TextEditingController textoCtrl = TextEditingController();
   TextEditingController fecha_horaCtrl = TextEditingController();
-  
+  final formKey = GlobalKey<FormState>();
   
   @override
   Widget build(BuildContext context) {
@@ -52,38 +53,42 @@ class _ModificarNoticiasPageState extends State<ModificarNoticiasPage> {
             )
         ],
       ),
-      body: Column(
+      body: 
+      Column(
         children: [
-          StreamBuilder(
-            stream: FirestoreService().noticias(), 
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){{
-                if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return ListView.separated(
-                  separatorBuilder: (context, index) => Divider(),
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder : (context, index){
-                    var noticias = snapshot.data!.docs[index];
-                    String fecha = DateFormat('dd-MM-yy').format(noticias['fecha_hora'].toDate());
-                    tituloCtrl.text = noticias['titulo'];
-                    textoCtrl.text = noticias['texto'];
-                    fecha_horaCtrl.text = fecha;
-                    return Column(
-                        children: [
-                          campoTitulo(),
-                          campoTexto(),
-                          campoFecha_Hora()
-                        ],
-                      );
-                  }
-
+          FutureBuilder(
+            future: FirestoreService().getNoticias(widget.noticiasId),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
                 );
               }
+                var noticias = snapshot.data!;
+                //String fecha = DateFormat('dd-MM-yy').format(noticias['fecha_hora'].toDate());
+                tituloCtrl.text = noticias['titulo'];
+                textoCtrl.text = noticias['texto'];
+                fecha_horaCtrl.text = noticias['fecha_hora'];
+                return Form(
+                  key: formKey,
+                  child: ListView(
+                    children: [
+                      campoTitulo(),
+                      campoTexto(),
+                      campoFecha_Hora(),
+                      Container(
+                        child: ElevatedButton(
+                          child: Text('Editar Noticia'),
+                          onPressed: (){},
+                        ),
+                      )
+                    ],
+
+                  ),
+                );
+                
             },
-          )
+          ),
         ],
       )
     );
