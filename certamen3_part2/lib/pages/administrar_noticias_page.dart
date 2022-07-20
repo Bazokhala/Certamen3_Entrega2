@@ -1,5 +1,5 @@
 import 'package:certamen3_part2/pages/home_page.dart';
-import 'package:certamen3_part2/pages/login_page.dart';
+import 'package:certamen3_part2/pages/modificar_noticias_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,26 +9,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/firestore_service.dart';
 
-class ModificarNoticiasPage extends StatefulWidget {
-  ModificarNoticiasPage({Key? key}) : super(key: key);
+class AdministrarNoticiasPage extends StatefulWidget {
+  AdministrarNoticiasPage({Key? key}) : super(key: key);
 
   @override
-  State<ModificarNoticiasPage> createState() => _ModificarNoticiasPageState();
+  State<AdministrarNoticiasPage> createState() => _AdministrarNoticiasPageState();
 }
 
-class _ModificarNoticiasPageState extends State<ModificarNoticiasPage> {
-  String error = "";
-  TextEditingController tituloCtrl = TextEditingController();
-  TextEditingController textoCtrl = TextEditingController();
-  TextEditingController fecha_horaCtrl = TextEditingController();
-  
-  
+class _AdministrarNoticiasPageState extends State<AdministrarNoticiasPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Modificar Noticias'),
+        title: Text('Administrador de Noticias'),
         backgroundColor: Color.fromARGB(206, 247, 24, 8),
+        leading: Icon(
+          MdiIcons.newspaper,),
         actions: [
           PopupMenuButton(
               itemBuilder: (context)=>[
@@ -50,13 +46,25 @@ class _ModificarNoticiasPageState extends State<ModificarNoticiasPage> {
                 }
               },
             )
-        ],
-      ),
+          ]
+        //   actions: <Widget>[
+        //     IconButton(
+        //       icon: new Icon(MdiIcons.login),
+        //       onPressed: () {
+        //         MaterialPageRoute route = MaterialPageRoute(
+        //           builder: (context) => LoginPage(),
+        //         );
+        //         Navigator.push(context, route);
+        //       },
+        //     ),
+        //   ],
+        ),
       body: Column(
         children: [
-          StreamBuilder(
-            stream: FirestoreService().noticias(), 
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){{
+          Expanded(
+            child: StreamBuilder(
+              stream: FirestoreService().noticias(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
                 if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -68,50 +76,31 @@ class _ModificarNoticiasPageState extends State<ModificarNoticiasPage> {
                   itemBuilder : (context, index){
                     var noticias = snapshot.data!.docs[index];
                     String fecha = DateFormat('dd-MM-yy').format(noticias['fecha_hora'].toDate());
-                    tituloCtrl.text = noticias['titulo'];
-                    textoCtrl.text = noticias['texto'];
-                    fecha_horaCtrl.text = fecha;
-                    return Column(
-                        children: [
-                          campoTitulo(),
-                          campoTexto(),
-                          campoFecha_Hora()
-                        ],
-                      );
+
+                    return GestureDetector(
+                      child: ListTile(
+                        leading: Icon(MdiIcons.newspaper),
+                        title: Text('${noticias['titulo']}'),
+                        subtitle: Text('${noticias['texto']}'),
+                        trailing: Text(fecha),
+                        onLongPress: (){
+                          MaterialPageRoute route = MaterialPageRoute(
+                            builder: (context) => ModificarNoticiasPage(),
+                          );
+                          Navigator.push(context, route);
+                        },
+                      ),
+                    );
                   }
 
                 );
-              }
-            },
-          )
+              },
+            ),
+          ),
+          
         ],
-      )
+      ),
     );
   }
-
-  TextFormField campoFecha_Hora() {
-    return TextFormField(
-            controller: fecha_horaCtrl,
-            decoration: InputDecoration(
-            labelText: 'Fecha'),
-            );
-  }
-
-  TextFormField campoTexto() {
-    return TextFormField(
-            controller: textoCtrl,
-            decoration: InputDecoration(
-              labelText: 'Texto', 
-            ),
-          );
-  }
-
-  TextFormField campoTitulo() {
-    return TextFormField(
-            controller: tituloCtrl,
-            decoration: InputDecoration(
-              labelText: 'titulo',
-            ),
-          );
-  }
 }
+ 

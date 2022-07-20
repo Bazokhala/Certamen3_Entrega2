@@ -1,3 +1,4 @@
+import 'package:certamen3_part2/pages/administrar_noticias_page.dart';
 import 'package:certamen3_part2/pages/home_page.dart';
 import 'package:certamen3_part2/pages/modificar_noticias_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,24 +26,24 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: Text('Inicio de Sesion'),
         backgroundColor: Color.fromARGB(206, 247, 24, 8),
-        leading: Icon(
-          MdiIcons.account,),
-          actions: <Widget>[
-            IconButton(
-              icon: new Icon(MdiIcons.login),
-              onPressed: () async{
-                await FirebaseAuth.instance.signOut();
+        // leading: Icon(
+        //   MdiIcons.account,),
+        //   actions: <Widget>[
+        //     IconButton(
+        //       icon: new Icon(MdiIcons.login),
+        //       onPressed: () async{
+        //         await FirebaseAuth.instance.signOut();
 
-                SharedPreferences sp = await SharedPreferences.getInstance();
-                sp.remove('userEmail');
+        //         SharedPreferences sp = await SharedPreferences.getInstance();
+        //         sp.remove('userEmail');
                 
-                MaterialPageRoute route = MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                );
-                Navigator.push(context, route);
-              },
-            ),
-          ],
+        //         MaterialPageRoute route = MaterialPageRoute(
+        //           builder: (context) => HomePage(),
+        //         );
+        //         Navigator.push(context, route);
+        //       },
+        //     ),
+        //   ],
       ),
       body: Padding(
         padding: EdgeInsets.all(5.0),
@@ -66,11 +67,10 @@ class _LoginPageState extends State<LoginPage> {
                     sp.setString('userEmail', emailCtrl.text.trim());
 
                     MaterialPageRoute route = MaterialPageRoute(
-                      builder: (context) => ModificarNoticiasPage(),
+                      builder: (context) => AdministrarNoticiasPage(),
                     );
                     Navigator.pushReplacement(context, route);
                   } on FirebaseAuthException catch (ex) {
-                    // print('EXCEPTION: ${ex.code}');
                     switch (ex.code) {
                       case 'user-not-found':
                         error = 'Usuario no existe';
@@ -101,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
             decoration: InputDecoration(
               labelText: 'Contraseña'
             ),
+            obscureText: true,
           );
   }
 
@@ -110,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
             decoration: InputDecoration(
               labelText: 'Email' 
             ),
+            keyboardType: TextInputType.emailAddress,
           );
   }
 }

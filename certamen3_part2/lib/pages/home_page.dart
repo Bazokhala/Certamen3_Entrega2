@@ -1,10 +1,10 @@
 import 'package:certamen3_part2/pages/login_page.dart';
 import 'package:certamen3_part2/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 import '../widgets/panel_user_email.dart';
 
@@ -69,10 +69,8 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          
           Expanded(
             child: StreamBuilder(
-              
               stream: FirestoreService().noticias(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
                 if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
@@ -80,21 +78,24 @@ class _HomePageState extends State<HomePage> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                return ListView.separated(
-                  separatorBuilder: (context, index) => Divider(),
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder : (context, index){
-                    var noticias = snapshot.data!.docs[index];
-
-                    return ListTile(
-                      leading: Icon(MdiIcons.newspaper),
-                      title: Text('${noticias['titulo']}'),
-                      subtitle: Text('${noticias['texto']}'),
-                      //Falta parsear la fecha
-                      trailing: Text('${noticias['titulo']}'),
-                    );
-                  }
-
+                return Flexible(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => Divider(),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder : (context, index){
+                      var noticias = snapshot.data!.docs[index];
+                      String fecha = DateFormat('dd-MM-yy').format(noticias['fecha_hora'].toDate());
+                
+                      return ListTile(
+                        leading: Icon(MdiIcons.newspaper),
+                        title: Text('${noticias['titulo']}'),
+                        subtitle: Text('${noticias['texto']}'),
+                        //Falta parsear la fecha
+                        trailing: Text(fecha),
+                      );
+                    }
+                
+                  ),
                 );
               },
             ),
