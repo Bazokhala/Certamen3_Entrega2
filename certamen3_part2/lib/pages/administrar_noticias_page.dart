@@ -91,12 +91,11 @@ class _AdministrarNoticiasPageState extends State<AdministrarNoticiasPage> {
                           Navigator.push(context, route);
                         },
                         onLongPress: (){
-                          FirestoreService().noticiasBorrar('${noticias['titulo']}');
+                          FirestoreService().noticiasBorrar(value.id);
                           MaterialPageRoute route = MaterialPageRoute(
-                            builder: ((context) => AdministrarNoticiasPage()));
-                          setState(() {
-                            
-                          });
+                            builder: (context) => AdministrarNoticiasPage(),
+                          );
+                          Navigator.pushReplacement(context, route);
                         },
                       ),
                     );

@@ -1,4 +1,5 @@
 import 'package:certamen3_part2/services/firestore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AgregarNoticiasPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class _AgregarNoticiasPageState extends State<AgregarNoticiasPage> {
   TextEditingController tituloCtrl = TextEditingController();
   TextEditingController textoCtrl = TextEditingController();
   TextEditingController fecha_horaCtrl = TextEditingController();
+  final firestoreInstance = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,11 @@ class _AgregarNoticiasPageState extends State<AgregarNoticiasPage> {
                 child: ElevatedButton(
                   child: Text('Agregar Noticia'),
                   onPressed: () async{
+                      firestoreInstance.collection('noticias').add(
+                        'titulo' : tituloCtrl.text.trim(),
+                        'texto' : textoCtrl,
+                        'fecha_hora' : fecha_horaCtrl,
+                      );
                     // var respuesta = await FirestoreService().noticiasAgregar(
                     //   campoTitulo().toString().trim(),
                     //   campoTexto().toString().trim(),

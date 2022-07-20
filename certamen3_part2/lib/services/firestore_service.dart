@@ -8,8 +8,8 @@ class FirestoreService{
       .snapshots();
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getNoticias(String noticias) async {
-    return await FirebaseFirestore.instance.collection('noticias').doc(noticias).get();
+  Future<DocumentSnapshot<Map<String, dynamic>>> getNoticias(String noticiasId) async {
+    return await FirebaseFirestore.instance.collection('noticias').doc().get();
   }
   Future noticiasAgregar(String titulo, String texto, Timestamp fecha_hora) {
     return FirebaseFirestore.instance.collection('noticias').doc().set({

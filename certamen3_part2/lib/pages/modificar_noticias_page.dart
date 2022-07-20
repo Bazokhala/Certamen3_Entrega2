@@ -29,7 +29,7 @@ class _ModificarNoticiasPageState extends State<ModificarNoticiasPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Modificar Noticias'),
-        backgroundColor: Color.fromARGB(206, 247, 24, 8),
+        backgroundColor: Color.fromARGB(206, 247, 8, 227),
         actions: [
           PopupMenuButton(
               itemBuilder: (context)=>[
