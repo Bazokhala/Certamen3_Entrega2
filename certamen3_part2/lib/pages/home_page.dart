@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Noticias'),
+        title: Text('Noticias Jardin Infantil'),
         backgroundColor: Color.fromARGB(206, 247, 8, 227),
         leading: Icon(
           MdiIcons.newspaper,),

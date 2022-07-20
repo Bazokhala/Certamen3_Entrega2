@@ -89,6 +89,16 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
             ),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                error,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 16,
+                ),
+              ),
+            ),
           ],
         ),
       )

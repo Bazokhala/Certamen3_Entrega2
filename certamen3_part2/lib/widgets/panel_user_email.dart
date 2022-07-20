@@ -13,13 +13,13 @@ class PanelUserEmail extends StatelessWidget {
       height: 50,
       child: Row(
         children: [
-          // Text(
-          //   'User: ',
-          //   style: TextStyle(
-          //     color: Colors.white,
-          //     fontSize: 18,
-          //   ),
-          // ),
+          Text(
+            'User: ',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+          ),
           FutureBuilder(
             future: getUserEmail(),
             builder: (context, AsyncSnapshot snapshot) {
