@@ -14,7 +14,8 @@ class AdministrarNoticiasPage extends StatefulWidget {
   AdministrarNoticiasPage({Key? key}) : super(key: key);
 
   @override
-  State<AdministrarNoticiasPage> createState() => _AdministrarNoticiasPageState();
+  State<AdministrarNoticiasPage> createState() =>
+      _AdministrarNoticiasPageState();
 }
 
 class _AdministrarNoticiasPageState extends State<AdministrarNoticiasPage> {
@@ -22,16 +23,15 @@ class _AdministrarNoticiasPageState extends State<AdministrarNoticiasPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Administrador de Noticias'),
-        backgroundColor: Color.fromARGB(206, 247, 8, 227),
-        leading: Icon(
-          MdiIcons.newspaper,),
-        actions: [
-          PopupMenuButton(
-              itemBuilder: (context)=>[
-                PopupMenuItem(
-                  value: 'logout',
-                  child: Text('Cerrar Sesion'))
+          title: Text('Administrador de Noticias'),
+          backgroundColor: Color.fromARGB(206, 247, 8, 227),
+          leading: Icon(
+            MdiIcons.newspaper,
+          ),
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(value: 'logout', child: Text('Cerrar Sesion'))
               ],
               onSelected: (value) async {
                 if (value == 'logout') {
@@ -48,77 +48,77 @@ class _AdministrarNoticiasPageState extends State<AdministrarNoticiasPage> {
               },
             )
           ]
-        //   actions: <Widget>[
-        //     IconButton(
-        //       icon: new Icon(MdiIcons.login),
-        //       onPressed: () {
-        //         MaterialPageRoute route = MaterialPageRoute(
-        //           builder: (context) => LoginPage(),
-        //         );
-        //         Navigator.push(context, route);
-        //       },
-        //     ),
-        //   ],
-        ),
+          //   actions: <Widget>[
+          //     IconButton(
+          //       icon: new Icon(MdiIcons.login),
+          //       onPressed: () {
+          //         MaterialPageRoute route = MaterialPageRoute(
+          //           builder: (context) => LoginPage(),
+          //         );
+          //         Navigator.push(context, route);
+          //       },
+          //     ),
+          //   ],
+          ),
       body: Column(
         children: [
           Expanded(
             child: StreamBuilder(
               stream: FirestoreService().noticias(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
-                if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData ||
+                    snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 }
                 return ListView.separated(
-                  separatorBuilder: (context, index) => Divider(),
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder : (context, index){
-                    var noticias = snapshot.data!.docs[index];
-                    String fecha = DateFormat('dd-MM-yy').format(noticias['fecha_hora'].toDate());
+                    separatorBuilder: (context, index) => Divider(),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      var noticias = snapshot.data!.docs[index];
+                      String fecha = DateFormat('dd-MM-yy')
+                          .format(noticias['fecha_hora'].toDate());
 
-                    return GestureDetector(
-                      child: ListTile(
-                        leading: Icon(MdiIcons.newspaper),
-                        title: Text('${noticias['titulo']}'),
-                        subtitle: Text('${noticias['texto']}'),
-                        trailing: Text(fecha),
-                        onTap: (){
-                          MaterialPageRoute route = MaterialPageRoute(
-                            builder: (context) => ModificarNoticiasPage('${noticias['titulo']}'),
-                          );
-                          Navigator.push(context, route);
-                        },
-                        onLongPress: (){
-                          FirestoreService().noticiasBorrar(value.id);
-                          MaterialPageRoute route = MaterialPageRoute(
-                            builder: (context) => AdministrarNoticiasPage(),
-                          );
-                          Navigator.pushReplacement(context, route);
-                        },
-                      ),
-                    );
-                  }
-
-                );
+                      return GestureDetector(
+                        child: ListTile(
+                          leading: Icon(MdiIcons.newspaper),
+                          title: Text('${noticias['titulo']}'),
+                          subtitle: Text('${noticias['texto']}'),
+                          trailing: Text(fecha),
+                          onTap: () {
+                            MaterialPageRoute route = MaterialPageRoute(
+                              builder: (context) => ModificarNoticiasPage(
+                                  '${noticias['titulo']}'),
+                            );
+                            Navigator.push(context, route);
+                          },
+                          onLongPress: () {
+                            FirestoreService()
+                                .noticiasBorrar(noticias['titulo']);
+                            MaterialPageRoute route = MaterialPageRoute(
+                              builder: (context) => AdministrarNoticiasPage(),
+                            );
+                            Navigator.pushReplacement(context, route);
+                          },
+                        ),
+                      );
+                    });
               },
             ),
           ),
           Container(
-            child: 
-            ElevatedButton(
+            child: ElevatedButton(
               child: Text('Agregar Noticia'),
-              onPressed: (){
+              onPressed: () {
                 MaterialPageRoute route = MaterialPageRoute(
-                  builder: ((context) => AgregarNoticiasPage()));
-                  Navigator.pushReplacement(context, route);
-              },),
+                    builder: ((context) => AgregarNoticiasPage()));
+                Navigator.pushReplacement(context, route);
+              },
+            ),
           )
         ],
       ),
     );
   }
-  
 }
- 
